@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import { HomeIcon, ImagePlusIcon, Key, LayoutDashboard, Send, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { SignedIn, SignedOut, SignInButton } from '@clerk/nextjs';
 
 
 const suggestions = [
@@ -31,12 +32,11 @@ const Hero = () => {
     const [userInput, setUserInput] = useState<string | "">("");
 
     const handleSuggestion = (value: string) => {
-        setUserInput(value); 
+        setUserInput(value);
     }
 
-
     return (
-        <div className='h-[80vh] flex flex-col gap-3 items-center justify-center p-5'>
+        <div className='h-[80vh] flex flex-col gap-3 items-center justify-center p-5 z-10 mt-40'>
             <h2 className="font-bold text-6xl">What should we build today?</h2>
             <p className="text-2xl mt-2 text-gray-500">Let&apos;s create something amazing with Next.js!</p>
             <p className="text-xl mt-2 text-gray-500">Generate, edit and explore designs with AI. Export your code!</p>
@@ -52,7 +52,18 @@ const Hero = () => {
                     <Button variant={"ghost"} className='cursor-pointer'>
                         <ImagePlusIcon />
                     </Button>
-                    <Button className='cursor-pointer'><Send size={10} /></Button>
+                    <SignedIn>
+                        <Button disabled={!userInput} className='cursor-pointer'>
+                            <Send size={10} />
+                        </Button>
+                    </SignedIn>
+                    <SignedOut>
+                        <SignInButton>
+                            <Button disabled={!userInput} className='cursor-pointer'>
+                                <Send size={10} />
+                            </Button>
+                        </SignInButton>
+                    </SignedOut>
                 </div>
             </div>
 

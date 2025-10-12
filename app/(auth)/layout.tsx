@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = await auth(); // Ensure the auth context is initialized
 
-  if (isAuthenticated) return redirect("/");
+  if (isAuthenticated) return redirect("/workspace");
 
   return (
     <main className="flex min-h-screen">
