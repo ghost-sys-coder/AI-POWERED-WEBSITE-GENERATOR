@@ -1,7 +1,7 @@
-import { cn, getRandomColors } from '@/lib/utils';
 import React, { useEffect, useState } from 'react'
+import { cn, getRandomColors } from '@/lib/utils';
 
-const TypeWriterEffect: React.FC<TypewriterProps> = ({ text, delay, infinite }) => {
+const TypeWriterEffect: React.FC<TypewriterProps> = ({ text, delay, infinite, textSize }) => {
     const [currentText, setCurrentText] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -24,7 +24,7 @@ const TypeWriterEffect: React.FC<TypewriterProps> = ({ text, delay, infinite }) 
         <p className='flex gap-3'>
             {currentText.split("").map((char, index) => (
                 <span key={index} className={cn(
-                    "letter text-2xl md:text-4xl font-medium",
+                    "letter font-medium", textSize,
                     getRandomColors())}>
                     {char}
                 </span>

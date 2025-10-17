@@ -6,4 +6,5 @@ interface TypewriterProps {
     text: string;
     delay?: number;
     infinite?: boolean;
+    textSize?: string;
 }

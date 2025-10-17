@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <main>
       <Header />
-      <Hero />
+      <Hero styling="mt-40 sm:mt-35" />
       <HomePageFooter />
     </main>
   )

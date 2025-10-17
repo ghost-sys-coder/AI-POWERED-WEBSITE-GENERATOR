@@ -19,3 +19,15 @@ export function getRandomColors() {
 
   return colors[Math.floor(Math.random() * colors.length)];
 }
+
+// generate four random numbers
+export function generateFourRandomNumbers(): number[]{
+  const numbers: number[] = [];
+  while (numbers.length < 4) {
+    const randomNum = Math.floor(Math.random() * 10); // Random number between 0-9
+    if (!numbers.includes(randomNum)) {
+      numbers.push(randomNum);
+    }
+  }
+  return numbers;
+}

@@ -18,7 +18,7 @@ const loaderText = "Loading...";
  * !! Define the User Context Type
  */
 interface UserContextType {
-    user: {
+    userDetails: {
         id?: string;
         name?: string;
         email?: string;
@@ -34,7 +34,7 @@ interface UserContextType {
  * !! Create Context
  */
 const UserContext = createContext<UserContextType>({
-    user: null,
+    userDetails: null,
     loading: true,
     refreshUser: async () => { },
 });
@@ -55,7 +55,7 @@ export const useUserContext = () => {
 const UserProvider = ({ children }: { children: ReactNode }) => {
     const router = useRouter();
     const { isLoaded, isSignedIn, session } = useSession();
-    const [user, setUser] = useState<UserContextType["user"]>(null);
+    const [userDetails, setUserDetails] = useState<UserContextType["userDetails"]>(null);
     const [loading, setLoading] = useState(true);
 
     // Redirect to sign-in if not authenticated
@@ -70,6 +70,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
         if (!session) return;
 
         try {
+            setLoading(true);
             const user = session?.user;
 
             // localstorage flag runs once per session 
@@ -82,6 +83,9 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
                     email: user?.emailAddresses[0]?.emailAddress
                 }
             );
+
+            setUserDetails(response?.data?.data || null);
+
             if (response.status === 201) {
                 toast.success("User profile Saved!");
             }
@@ -93,7 +97,6 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 
             // set session flag
             localStorage.setItem(sessionFlag, "true");
-            setUser(response.data?.data || null);
         } catch (error) {
             console.error("Error creating user:", error);
         } finally {
@@ -111,7 +114,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
             const response = await axios.post("/api/auth", {
                 clerkUser: session.user.id
             });
-            setUser(response.data?.data || null);
+            setUserDetails(response.data?.data || null);
         } catch (error) {
             console.error("Error refreshing user:", error);
         } finally {
@@ -145,7 +148,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     if (!session) return null;
 
     return (
-        <UserContext.Provider value={{ user, loading, refreshUser }}>
+        <UserContext.Provider value={{ userDetails, loading, refreshUser }}>
             {children}
         </UserContext.Provider>
     )
